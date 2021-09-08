@@ -456,7 +456,7 @@
 	function styleComputeValueWidthVars(style, valueWithVars, details){
 		var valueCalcFlattened = valueWithVars.replace(/calc\(/g, 
 			(function(i) { 
-				return match => !i++ ? match : '('; 
+				return function(match) { return !i++ ? match : '(' };
 			})(0));
 		return findVars(valueCalcFlattened, function (variable, fallback, insideCalc) {
 			var value = style.getPropertyValue(variable);

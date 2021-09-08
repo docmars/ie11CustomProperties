@@ -454,7 +454,11 @@
 		return newStr;
 	}
 	function styleComputeValueWidthVars(style, valueWithVars, details){
-		return findVars(valueWithVars, function(variable, fallback, insideCalc){
+		var valueCalcFlattened = valueWithVars.replace(/calc\(/g, 
+			(function(i) { 
+				return match => !i++ ? match : '('; 
+			})(0));
+		return findVars(valueCalcFlattened, function (variable, fallback, insideCalc) {
 			var value = style.getPropertyValue(variable);
 			if (insideCalc) value = value.replace(/^calc\(/, '('); // prevent nested calc
 			if (details && style.lastPropertyServedBy !== document.documentElement) details.allByRoot = false;
